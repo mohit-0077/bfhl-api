@@ -1,0 +1,140 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
+
+public class College {
+    private String name;
+    private String website;
+    private String mobile;
+    private String founder;
+    private Integer numberOfDept;
+    private String location;
+    private Date startingDate;
+
+    // Default constructor
+    public College() {}
+
+    // Parameterized constructor
+    public College(String name, String website, String mobile, String founder,
+                   Integer numberOfDept, String location, Date startingDate) {
+        this.name = name;
+        this.website = website;
+        this.mobile = mobile;
+        this.founder = founder;
+        this.numberOfDept = numberOfDept;
+        this.location = location;
+        this.startingDate = startingDate;
+    }
+
+    // Getters and Setters
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getWebsite() { return website; }
+    public void setWebsite(String website) { this.website = website; }
+
+    public String getMobile() { return mobile; }
+    public void setMobile(String mobile) { this.mobile = mobile; }
+
+    public String getFounder() { return founder; }
+    public void setFounder(String founder) { this.founder = founder; }
+
+    public Integer getNumberOfDept() { return numberOfDept; }
+    public void setNumberOfDept(Integer numberOfDept) { this.numberOfDept = numberOfDept; }
+
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+
+    public Date getStartingDate() { return startingDate; }
+    public void setStartingDate(Date startingDate) { this.startingDate = startingDate; }
+
+    // Override toString
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        return "Name: " + name + "\n" +
+               "Website: " + website + "\n" +
+               "Mobile: " + mobile + "\n" +
+               "Founder: " + founder + "\n" +
+               "Number of Dept: " + numberOfDept + "\n" +
+               "Location: " + location + "\n" +
+               "Starting Date: " + sdf.format(startingDate);
+    }
+
+    // Override equals
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof College)) return false;
+        College college = (College) o;
+        return this.name.equalsIgnoreCase(college.name) &&
+               this.startingDate.equals(college.startingDate);
+    }
+
+    // Optional: Override hashCode if equals is overridden
+    @Override
+    public int hashCode() {
+        return Objects.hash(name.toLowerCase(), startingDate);
+    }
+}
+
+
+
+
+
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            System.out.println("Enter college 1 detail:");
+            String input1 = sc.nextLine();
+            System.out.println("Enter college 2 detail:");
+            String input2 = sc.nextLine();
+
+            // Parsing input
+            String[] parts1 = input1.split(",");
+            String[] parts2 = input2.split(",");
+
+            College college1 = new College(
+                parts1[0], parts1[1], parts1[2], parts1[3],
+                Integer.parseInt(parts1[4]), parts1[5],
+                sdf.parse(parts1[6])
+            );
+
+            College college2 = new College(
+                parts2[0], parts2[1], parts2[2], parts2[3],
+                Integer.parseInt(parts2[4]), parts2[5],
+                sdf.parse(parts2[6])
+            );
+
+            // Output
+            System.out.println("\nCollege 1:");
+            System.out.println(college1);
+            System.out.println();
+            System.out.println("College 2:");
+            System.out.println(college2);
+            System.out.println();
+
+            // Comparison
+            if (college1.equals(college2)) {
+                System.out.println("College 1 is same as College 2");
+            } else {
+                System.out.println("College 1 and College 2 are different");
+            }
+
+        } catch (ParseException e) {
+            System.out.println("Invalid date format. Please use dd-MM-yyyy");
+        } catch (Exception e) {
+            System.out.println("Invalid input format. Please check the data.");
+        }
+
+        sc.close();
+    }
+}
